@@ -120,7 +120,7 @@ The database consists of six main tables:
 # 🏗️ Entity Relationship Diagram (ERD)
 
 <p align="center">
-<img src="images/erd.png" width="900">
+<img src="images/erd.jpg" width="900">
 </p>
 
 ### Relationship Overview
@@ -136,7 +136,7 @@ The database consists of six main tables:
 # 📐 Logical Record Structure (LRS)
 
 <p align="center">
-<img src="images/lrs.png" width="900">
+<img src="images/lrs.jpg" width="900">
 </p>
 
 The Logical Record Structure illustrates how entities are connected and how data flows within the database system.
@@ -264,7 +264,7 @@ ON album.album_id = song.album_id;
 ## Artist, Album, Song & Duration
 
 <p align="center">
-<img src="images/query_artist_album_song.png" width="900">
+<img src="images/query_artist_album_song.jpg" width="900">
 </p>
 
 ---
@@ -272,7 +272,7 @@ ON album.album_id = song.album_id;
 ## Songs Created by Avicii
 
 <p align="center">
-<img src="images/query_avicii_song.png" width="900">
+<img src="images/query_avicii_song.jpg" width="900">
 </p>
 
 ---
@@ -280,7 +280,7 @@ ON album.album_id = song.album_id;
 ## Songs Between 200–280 Seconds
 
 <p align="center">
-<img src="images/query_duration.png" width="900">
+<img src="images/query_duration.jpg" width="900">
 </p>
 
 ---
@@ -288,7 +288,7 @@ ON album.album_id = song.album_id;
 ## Total Songs by Artist
 
 <p align="center">
-<img src="images/query_total_song_artist.png" width="900">
+<img src="images/query_total_song_artist.jpg" width="900">
 </p>
 
 ---
@@ -296,7 +296,7 @@ ON album.album_id = song.album_id;
 ## Playlist Created by Users
 
 <p align="center">
-<img src="images/query_playlist_user.png" width="900">
+<img src="images/query_playlist_user.jpg" width="900">
 </p>
 
 ---
@@ -304,7 +304,7 @@ ON album.album_id = song.album_id;
 ## Songs Inside Playlist
 
 <p align="center">
-<img src="images/query_playlist_song.png" width="900">
+<img src="images/query_playlist_song.jpg" width="900">
 </p>
 
 ---
@@ -354,14 +354,14 @@ music-streaming-playlist-database/
 │   └── Database_Report.pdf
 │
 ├── images/
-│   ├── erd.png
-│   ├── lrs.png
-│   ├── query_artist_album_song.png
-│   ├── query_avicii_song.png
-│   ├── query_duration.png
-│   ├── query_total_song_artist.png
-│   ├── query_playlist_user.png
-│   └── query_playlist_song.png
+│   ├── erd.jpg
+│   ├── lrs.jpg
+│   ├── query_artist_album_song.jpg
+│   ├── query_avicii_song.jpg
+│   ├── query_duration.jpg
+│   ├── query_total_song_artist.jpg
+│   ├── query_playlist_user.jpg
+│   └── query_playlist_song.jpg
 ```
 
 ---
