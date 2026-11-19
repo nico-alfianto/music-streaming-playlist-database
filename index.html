@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Music Streaming Playlist Database | Nico Alfianto</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0A0A0B;--card:#131315;--card2:#1A1A1D;--border:#232326;--text:#F4F4F5;--muted:#A1A1AA;--muted2:#71717A;--pill:#1E1E21}
+body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+header{padding:48px 0 32px;border-bottom:1px solid var(--border)}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;flex-wrap:wrap}
+.eyebrow{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted2);font-weight:600;margin-bottom:16px}
+.eyebrow span{color:var(--text)}
+h1{font-size:42px;line-height:.95;letter-spacing:-.04em;font-weight:800}
+h1 em{font-style:normal;color:var(--muted)}
+.header-desc{max-width:560px;color:var(--muted);font-size:16px;margin-top:18px;line-height:1.7}
+.header-right{text-align:right}
+.header-right strong{display:block;font-size:15px}
+.header-right p{color:var(--muted);font-size:14px;margin-top:4px}
+.header-right .actions{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;margin-top:16px}
+.btn-white{display:inline-block;background:#fff;color:#000;font-size:14px;font-weight:600;padding:11px 18px;border-radius:999px}
+.btn-outline{display:inline-block;background:transparent;color:#fff;border:1px solid #3F3F46;font-size:14px;font-weight:600;padding:11px 18px;border-radius:999px}
+main{padding:32px 0 80px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:24px;margin-bottom:20px}
+.card h3{font-size:18px;margin-bottom:6px}
+.card p.sub{font-size:14px;color:var(--muted);margin-bottom:18px;line-height:1.7}
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.kpi{background:var(--card2);border:1px solid var(--border);border-radius:16px;padding:20px}
+.kpi span{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted2);font-weight:600}
+.kpi b{display:block;font-size:28px;letter-spacing:-.03em;margin:8px 0 4px}
+.kpi small{font-size:13px;color:var(--muted)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}
+.image-wrapper{width:100%;height:320px;background:#0A0A0B;border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:12px;cursor:zoom-in}
+.image-wrapper img{width:100%;height:100%;object-fit:contain}
+.image-wrapper.tall{height:380px}
+.insight{background:var(--card2);border:1px solid var(--border);border-radius:14px;padding:16px;font-size:14px;line-height:1.7;color:var(--muted)}
+.insight b{color:#fff}
+.table{width:100%;border-collapse:collapse;margin-top:12px;font-size:14px}
+.table th{text-align:left;padding:12px;border-bottom:1px solid var(--border);color:var(--muted);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+.table td{padding:12px;border-bottom:1px solid var(--border);line-height:1.6;vertical-align:top}
+code{font-family:'JetBrains Mono',monospace;font-size:13px;background:#0A0A0B;border:1px solid var(--border);border-radius:8px;padding:2px 6px}
+pre{font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.7;background:#0A0A0B;border:1px solid var(--border);border-radius:12px;padding:16px;overflow-x:auto;white-space:pre-wrap}
+.pg-steps{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:20px}
+.pg-step{background:var(--card2);border:1px solid var(--border);border-radius:14px;padding:16px}
+.pg-step span{font-size:12px;color:var(--muted2);font-weight:600;letter-spacing:.08em}
+.pg-step b{display:block;font-size:14px;margin:6px 0 4px}
+.pg-step p{font-size:13px;color:var(--muted);line-height:1.6}
+.pg-preset{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+.pg-preset button{font-family:inherit;background:transparent;border:1px solid #3F3F46;color:var(--text);padding:9px 14px;border-radius:999px;font-size:13px;font-weight:600;cursor:pointer}
+.pg-preset button.active{background:#fff;color:#000;border-color:#fff}
+.pg-grid2{display:grid;grid-template-columns:340px 1fr;gap:24px;margin-top:20px;align-items:start}
+.pg-seg{display:flex;gap:8px;flex-wrap:wrap}
+.pg-seg button{font-family:inherit;background:transparent;border:1px solid var(--border);color:var(--muted);padding:9px 12px;border-radius:999px;font-size:13px;font-weight:600;cursor:pointer}
+.pg-seg button.on{background:#fff;color:#000;border-color:#fff}
+.pg-big{font-size:42px;font-weight:800;letter-spacing:-.04em;line-height:1}
+.pg-badge{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:7px 12px;border-radius:999px;white-space:nowrap}
+.pg-badge.green{background:#052E16;color:#86EFAC;border:1px solid #166534}
+.pg-contrib,.pg-action{background:var(--card2);border:1px solid var(--border);border-radius:14px;padding:16px;margin-top:12px}
+.pg-meta{margin-top:20px;padding-top:16px;border-top:1px solid var(--border);display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;font-size:12px;color:var(--muted2);line-height:1.7}
+.pg-meta b{color:var(--text)}
+.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.92);justify-content:center;align-items:center;z-index:9999}
+.modal.active{display:flex}
+.modal img{max-width:92%;max-height:88%;border-radius:12px}
+.modal-close{position:absolute;top:20px;right:30px;font-size:40px;color:#fff;cursor:pointer}
+footer{border-top:1px solid var(--border);padding:28px 0 40px;color:var(--muted2);font-size:13px}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+@media(max-width:900px){h1{font-size:34px}.kpi-grid{grid-template-columns:1fr 1fr}.grid2,.pg-grid2,.pg-steps{grid-template-columns:1fr}.header-right{text-align:left}.header-right .actions{justify-content:flex-start}.image-wrapper,.image-wrapper.tall{height:260px}}
+</style>
+</head>
+<body>
+<header><div class="wrap"><div class="top"><div>
+<div class="eyebrow">Database Design <span>— MySQL & SQL</span></div>
+<h1>Music Streaming<br><em>Playlist Database</em></h1>
+<p class="header-desc">Relational database design for a music streaming platform like Spotify. 6 tables, 1 junction table for Many-to-Many, with PK / FK integrity, CRUD, Views, and analytical queries.</p>
+<p style="font-size:13px;color:var(--muted2);margin-top:12px;">Database Design • ERD • LRS • SQL Implementation</p>
+</div><div class="header-right"><strong>Nico Alfianto</strong><p>Bogor, Indonesia — Database Enthusiast</p><div class="actions"><a class="btn-white" href="https://nico-myproject.github.io">Back to Portfolio</a><a class="btn-outline" href="#sql-playground">Run SQL Queries</a></div></div></div></div></header>
+<main class="wrap">
+<div class="kpi-grid" style="margin-bottom:20px;">
+<div class="kpi"><span>Tables</span><b>6 Tables</b><small>Normalized to 3NF</small></div>
+<div class="kpi"><span>Junction Table</span><b>Playlist_Song</b><small>Many-to-Many</small></div>
+<div class="kpi"><span>SQL Coverage</span><b>DDL + DML + DQL</b><small>+ VIEW</small></div>
+<div class="kpi"><span>Queries Demo</span><b>6 Queries</b><small>JOIN, WHERE, GROUP BY</small></div>
+</div>
+<div class="card"><h3>Project Overview</h3><p style="font-size:14px;color:var(--muted);line-height:1.8;">Music streaming platforms manage millions of songs, artists, albums, playlists, and user interactions every day. To support these operations efficiently, a well-structured database design is essential. This project designs and implements a relational database for a Music Streaming Playlist Platform using MySQL, managing users, artists, albums, songs, playlists, and playlist-song relationships while maintaining data integrity through primary and foreign key constraints.</p></div>
+<!-- PLAYGROUND -->
+<div class="card" id="sql-playground">
+<div class="eyebrow" style="margin-bottom:10px;">Interactive Playground <span>— SQL Query Simulator</span></div>
+<h2 style="font-size:28px;">SQL Query Explorer</h2>
+<p class="sub" style="max-width:720px;">Pick a table on the left to see its schema, then pick a query preset and click Run Query. This simulates the real queries in <code>db_music_stream.sql</code> — with JOIN, WHERE, BETWEEN, and GROUP BY.</p>
+<div class="pg-steps">
+<div class="pg-step"><span>STEP 01</span><b>Explore schema</b><p>Click a table to see columns, PK, FK, and what it stores.</p></div>
+<div class="pg-step"><span>STEP 02</span><b>Pick a query</b><p>Choose one of 6 real queries from the project — from simple JOIN to Many-to-Many.</p></div>
+<div class="pg-step"><span>STEP 03</span><b>Run & read result</b><p>Read SQL + result + why it matters. That's what a data / backend role checks.</p></div>
+</div>
+<div class="pg-preset" id="pgPreset">
+<button onclick="setQueryPG(0,this)" class="active">Artist, Album, Song & Duration</button>
+<button onclick="setQueryPG(1,this)">Songs by Avicii</button>
+<button onclick="setQueryPG(2,this)">Songs 200–280 Seconds</button>
+<button onclick="setQueryPG(3,this)">Total Songs by Artist</button>
+<button onclick="setQueryPG(4,this)">Playlists by Users</button>
+<button onclick="setQueryPG(5,this)">Songs Inside Playlist</button>
+</div>
+<div class="pg-grid2">
+<div>
+<div style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted2);font-weight:600;">Schema — Click a Table</div>
+<div class="pg-seg" id="pgTables" style="margin-top:12px;">
+<button onclick="setTablePG('artist',this)" class="on">artist</button>
+<button onclick="setTablePG('album',this)">album</button>
+<button onclick="setTablePG('song',this)">song</button>
+<button onclick="setTablePG('user',this)">user</button>
+<button onclick="setTablePG('playlist',this)">playlist</button>
+<button onclick="setTablePG('playlist_song',this)">playlist_song</button>
+</div>
+<div class="pg-contrib"><div style="font-size:13px;font-weight:700;margin-bottom:6px;" id="pgTableName">artist — Artist Management</div><div id="pgTableDesc" style="font-size:13px;color:var(--muted);line-height:1.7;">Stores artist information. One Artist can have many Albums and many Songs.</div><div id="pgTableCols" style="margin-top:10px;font-size:13px;line-height:1.8;"></div></div>
+<div class="pg-action"><div style="font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;">Relationship</div><div id="pgRel" style="font-size:14px;line-height:1.7;color:var(--muted);margin-top:6px;">One Artist → Many Albums<br>One Artist → Many Songs</div></div>
+</div>
+<div>
+<div style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted2);font-weight:600;">Query Result</div>
+<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-top:10px;gap:12px;">
+<div><div class="pg-big" id="pgTitle">JOIN 3 Tables</div><div style="font-size:14px;color:var(--muted);margin-top:6px;" id="pgSubtitle">Artist → Album → Song</div></div>
+<span class="pg-badge green" id="pgBadge">6 ROWS • SUCCESS</span>
+</div>
+<pre id="pgSQL" style="margin-top:14px;">SELECT artist.name, album.title, song.title, song.duration
+FROM artist
+JOIN album ON artist.artist_id = album.artist_id
+JOIN song ON album.album_id = song.album_id;</pre>
+<div style="overflow-x:auto;"><table class="table"><thead><tr id="pgHead"></tr></thead><tbody id="pgBody"></tbody></table></div>
+<div class="pg-contrib"><div style="font-size:13px;font-weight:700;margin-bottom:6px;">Why This Query Matters</div><div id="pgWhy" style="font-size:14px;line-height:1.7;color:var(--muted);">Proves 3-table JOIN works correctly. This is the core pattern for any music app: show song with its artist and album in one list.</div></div>
+<button onclick="runPG()" class="btn-white" style="margin-top:14px;border:none;cursor:pointer;font-family:inherit;">Run Query Again</button>
+</div>
+</div>
+<div class="pg-meta"><div><b>Source:</b> database/db_music_stream.sql</div><div><b>Engine:</b> MySQL</div><div><b>Demo Data:</b> Sample data for demo — full dataset in .sql file</div><div><b>Note:</b> Screenshots below show real phpMyAdmin results.</div></div>
+</div>
+
+<!-- SCHEMA + FEATURES -->
+<div class="grid2">
+<div class="card"><h3>Database Schema</h3><p class="sub">6 tables, normalized to 3NF.</p><table class="table"><tr><th>Table</th><th>Description</th></tr><tr><td><code>user</code></td><td>Stores user information</td></tr><tr><td><code>artist</code></td><td>Stores artist information</td></tr><tr><td><code>album</code></td><td>Stores album information</td></tr><tr><td><code>song</code></td><td>Stores song information</td></tr><tr><td><code>playlist</code></td><td>Stores playlist information</td></tr><tr><td><code>playlist_song</code></td><td>Junction table — Playlist ↔ Song</td></tr></table><div class="insight" style="margin-top:14px;"><b>Key Design:</b> <code>playlist_song</code> solves Many-to-Many. One Playlist can contain many Songs, one Song can appear in many Playlists.</div></div>
+<div class="card"><h3>System Features</h3><p class="sub">What the database supports.</p><p style="font-size:14px;color:var(--muted);line-height:1.9;"><b style="color:#fff;">User Management:</b> Store user info, manage playlist ownership<br><b style="color:#fff;">Artist Management:</b> Store artist info, track songs & albums<br><b style="color:#fff;">Album Management:</b> Manage albums, associate with artists<br><b style="color:#fff;">Song Management:</b> Store song info, track duration<br><b style="color:#fff;">Playlist Management:</b> Create public / private playlists<br><b style="color:#fff;">Playlist-Song:</b> Many-to-Many via junction table</p></div>
+</div>
+
+<!-- ERD + LRS -->
+<div class="card"><h3>Database Design Diagrams</h3><p class="sub">Click to zoom.</p><div class="grid2"><div><h3 style="margin-bottom:10px;">ERD — Entity Relationship Diagram</h3><div class="image-wrapper" onclick="openModal('images/erd.jpg')"><img src="images/erd.jpg" alt="ERD" loading="lazy"></div><div class="insight"><b>Relationships:</b> One Artist → Many Albums. One Album → Many Songs. One User → Many Playlists. One Playlist → Many Songs. One Song → Many Playlists.</div></div><div><h3 style="margin-bottom:10px;">LRS — Logical Record Structure</h3><div class="image-wrapper" onclick="openModal('images/lrs.jpg')"><img src="images/lrs.jpg" alt="LRS" loading="lazy"></div><div class="insight"><b>What it shows:</b> Logical structure derived from ERD, how entities connect and how data flows.</div></div></div></div>
+
+<!-- WORKFLOW + SQL EXAMPLES -->
+<div class="grid2">
+<div class="card"><h3>Database Development Workflow</h3><p class="sub">How it was built.</p><p style="font-size:14px;color:var(--muted);line-height:2;"><b style="color:#fff;">1. Requirement Analysis</b><br><b style="color:#fff;">2. Entity Identification</b><br><b style="color:#fff;">3. ERD Design</b><br><b style="color:#fff;">4. LRS Design</b><br><b style="color:#fff;">5. Database Implementation</b><br><b style="color:#fff;">6. SQL Operations</b><br><b style="color:#fff;">7. Testing & Validation</b></p></div>
+<div class="card"><h3>SQL Implementation</h3><p class="sub">DDL, DML, DQL, VIEW.</p><p style="font-size:14px;color:var(--muted);line-height:1.9;"><b style="color:#fff;">DDL:</b> CREATE DATABASE, CREATE TABLE, ALTER TABLE, PRIMARY KEY, FOREIGN KEY<br><b style="color:#fff;">DML:</b> INSERT, UPDATE, DELETE<br><b style="color:#fff;">DQL:</b> SELECT, JOIN, GROUP BY, ORDER BY, WHERE, Aggregate Functions<br><b style="color:#fff;">Objects:</b> VIEW</p><pre style="margin-top:12px;">CREATE TABLE artist (
+  artist_id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100)
+);</pre></div>
+</div>
+
+<!-- QUERY RESULTS -->
+<div class="card"><h3>Query Results & Analysis — Real Screenshots</h3><p class="sub">Real phpMyAdmin results. Use Playground above to try the same queries interactively.</p><div class="grid2">
+<div><h3 style="margin-bottom:10px;">Artist, Album, Song & Duration</h3><div class="image-wrapper" onclick="openModal('images/query_artist_album_song.jpg')"><img src="images/query_artist_album_song.jpg" alt="Query 1" loading="lazy"></div></div>
+<div><h3 style="margin-bottom:10px;">Songs Created by Avicii</h3><div class="image-wrapper" onclick="openModal('images/query_avicii_song.jpg')"><img src="images/query_avicii_song.jpg" alt="Query 2" loading="lazy"></div></div>
+<div><h3 style="margin-bottom:10px;">Songs Between 200–280 Seconds</h3><div class="image-wrapper" onclick="openModal('images/query_duration.jpg')"><img src="images/query_duration.jpg" alt="Query 3" loading="lazy"></div></div>
+<div><h3 style="margin-bottom:10px;">Total Songs by Artist</h3><div class="image-wrapper" onclick="openModal('images/query_total_song_artist.jpg')"><img src="images/query_total_song_artist.jpg" alt="Query 4" loading="lazy"></div></div>
+<div><h3 style="margin-bottom:10px;">Playlists Created by Users</h3><div class="image-wrapper" onclick="openModal('images/query_playlist_user.jpg')"><img src="images/query_playlist_user.jpg" alt="Query 5" loading="lazy"></div></div>
+<div><h3 style="margin-bottom:10px;">Songs Inside Playlist</h3><div class="image-wrapper" onclick="openModal('images/query_playlist_song.jpg')"><img src="images/query_playlist_song.jpg" alt="Query 6" loading="lazy"></div></div>
+</div></div>
+
+<!-- LEARNING + REPO -->
+<div class="grid2">
+<div class="card"><h3>Key Learning Outcomes</h3><p class="sub">Skills demonstrated.</p><p style="font-size:14px;color:var(--muted);line-height:1.9;">Database Design & Relational Modeling<br>ERD & LRS Modeling<br>Database Normalization to 3NF<br>SQL Programming: DDL, DML, DQL<br>CRUD & Data Integrity (PK / FK)<br>Query Optimization Fundamentals</p></div>
+<div class="card"><h3>Repository & Files</h3><p class="sub">Source files.</p><pre>music-streaming-playlist-database/
+├── database/
+│   └── db_music_stream.sql
+├── docs/
+│   └── Database_Report.pdf
+├── images/
+│   ├── erd.jpg
+│   ├── lrs.jpg
+│   └── query_*.jpg
+└── README.md</pre><div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;"><a class="btn-white" href="database/db_music_stream.sql">View SQL File</a><a class="btn-outline" href="docs/Database_Report.pdf">Download Report PDF</a></div></div>
+</div>
+
+<div class="card"><h3>Future Improvements</h3><p class="sub">Next steps if continued.</p><p style="font-size:14px;color:var(--muted);line-height:1.8;">User Authentication • Music Recommendation Engine • Song Rating • Playlist Sharing • Web-Based Interface • Mobile Integration • Stored Procedures • Triggers • Database Security Enhancement</p></div>
+
+</main>
+<footer><div class="wrap"><span>© 2026 Nico Alfianto — Music Streaming Playlist Database. Database Design 2026</span><span><a href="https://nico-myproject.github.io">Portfolio</a></span></div></footer>
+<div class="modal" id="imageModal" onclick="closeModal()"><span class="modal-close">&times;</span><img id="modalImg" src="" alt="Full View"></div>
+<script>
+function openModal(src){document.getElementById('modalImg').src=src;document.getElementById('imageModal').classList.add('active');}
+function closeModal(){document.getElementById('imageModal').classList.remove('active');}
+var TABLES={
+artist:{name:'artist — Artist Management',desc:'Stores artist information. One Artist can have many Albums and many Songs.',cols:'<b>artist_id</b> INT PK AUTO_INCREMENT<br><b>name</b> VARCHAR(100)',rel:'One Artist → Many Albums<br>One Artist → Many Songs'},
+album:{name:'album — Album Management',desc:'Stores album information. Each Album belongs to one Artist, contains many Songs.',cols:'<b>album_id</b> INT PK AUTO_INCREMENT<br><b>title</b> VARCHAR(100)<br><b>artist_id</b> INT FK → artist.artist_id',rel:'Many Albums → One Artist<br>One Album → Many Songs'},
+song:{name:'song — Song Management',desc:'Stores song information and duration. Each Song belongs to one Album and one Artist.',cols:'<b>song_id</b> INT PK AUTO_INCREMENT<br><b>title</b> VARCHAR(100)<br><b>duration</b> INT (seconds)<br><b>album_id</b> INT FK → album.album_id<br><b>artist_id</b> INT FK → artist.artist_id',rel:'Many Songs → One Album<br>Many Songs → One Artist'},
+user:{name:'user — User Management',desc:'Stores user information. One User can create many Playlists.',cols:'<b>user_id</b> INT PK AUTO_INCREMENT<br><b>username</b> VARCHAR(50)<br><b>email</b> VARCHAR(100)',rel:'One User → Many Playlists'},
+playlist:{name:'playlist — Playlist Management',desc:'Stores playlist information. Can be public or private. Owned by one User.',cols:'<b>playlist_id</b> INT PK AUTO_INCREMENT<br><b>name</b> VARCHAR(100)<br><b>is_public</b> BOOLEAN<br><b>user_id</b> INT FK → user.user_id',rel:'Many Playlists → One User<br>One Playlist → Many Songs (via playlist_song)'},
+playlist_song:{name:'playlist_song — Junction Table',desc:'Junction table connecting playlists and songs. Solves Many-to-Many relationship.',cols:'<b>playlist_id</b> INT FK → playlist.playlist_id<br><b>song_id</b> INT FK → song.song_id<br><b>PK = (playlist_id, song_id)</b>',rel:'One Playlist → Many Songs<br>One Song → Many Playlists'}
+};
+var QUERIES=[
+{title:'JOIN 3 Tables',sub:'Artist → Album → Song',sql:'SELECT artist.name, album.title, song.title, song.duration\nFROM artist\nJOIN album ON artist.artist_id = album.artist_id\nJOIN song ON album.album_id = song.album_id;',head:['Artist','Album','Song','Duration (s)'],rows:[['Avicii','True','Wake Me Up',247],['Avicii','True','Hey Brother',255],['Coldplay','Ghost Stories','Magic',285],['Coldplay','A Head Full of Dreams','Adventure of a Lifetime',263],['Ed Sheeran','Divide','Shape of You',234],['Ed Sheeran','Divide','Perfect',263]],why:'Proves 3-table JOIN works correctly. This is the core pattern for any music app: show song with its artist and album in one list.'},
+{title:'WHERE Filter',sub:'Songs Created by Avicii',sql:"SELECT song.title, song.duration\nFROM song\nJOIN artist ON song.artist_id = artist.artist_id\nWHERE artist.name = 'Avicii';",head:['Song','Duration (s)'],rows:[['Wake Me Up',247],['Hey Brother',255],['Levels',227]],why:'Shows WHERE filtering + JOIN. Used for artist pages: “Show all songs by this artist.”'},
+{title:'BETWEEN Filter',sub:'Songs 200–280 Seconds',sql:'SELECT song.title, song.duration\nFROM song\nWHERE song.duration BETWEEN 200 AND 280;',head:['Song','Duration (s)'],rows:[['Wake Me Up',247],['Hey Brother',255],['Shape of You',234],['Levels',227],['Perfect',263]],why:'Shows BETWEEN + numeric filtering. Useful for playlist rules like “songs under 5 minutes” or duration-based recommendations.'},
+{title:'GROUP BY + COUNT',sub:'Total Songs by Artist',sql:'SELECT artist.name, COUNT(song.song_id) AS total_songs\nFROM artist\nLEFT JOIN song ON artist.artist_id = song.artist_id\nGROUP BY artist.name\nORDER BY total_songs DESC;',head:['Artist','Total Songs'],rows:[['Avicii','3'],['Coldplay','2'],['Ed Sheeran','2']],why:'Shows aggregation. GROUP BY + COUNT is the foundation for reporting: top artists, most productive artists, library stats.'},
+{title:'User → Playlist',sub:'Playlists Created by Users',sql:'SELECT user.username, playlist.name, playlist.is_public\nFROM user\nJOIN playlist ON user.user_id = playlist.user_id;',head:['User','Playlist','Public?'],rows:[['nico','Chill Vibes','Yes'],['nico','Workout Mix','Yes'],['ikhsan','Focus Study','No'],['marcho','Road Trip','Yes']],why:'Shows ownership relationship. One User → Many Playlists. Needed for profile pages and playlist management.'},
+{title:'Many-to-Many',sub:'Songs Inside Playlist',sql:'SELECT playlist.name, song.title\nFROM playlist\nJOIN playlist_song ON playlist.playlist_id = playlist_song.playlist_id\nJOIN song ON playlist_song.song_id = song.song_id\nWHERE playlist.name = \'Chill Vibes\';',head:['Playlist','Song'],rows:[['Chill Vibes','Wake Me Up'],['Chill Vibes','Perfect'],['Chill Vibes','Magic']],why:'The most important query. Proves the junction table works. Without playlist_song, Many-to-Many is impossible — one song could not appear in multiple playlists.'}
+];
+var curQ=0, curT='artist';
+function setTablePG(t,btn){curT=t;var b=document.querySelectorAll('#pgTables button');for(var i=0;i<b.length;i++)b[i].classList.remove('on');if(btn)btn.classList.add('on');var d=TABLES[t];document.getElementById('pgTableName').textContent=d.name;document.getElementById('pgTableDesc').textContent=d.desc;document.getElementById('pgTableCols').innerHTML=d.cols;document.getElementById('pgRel').innerHTML=d.rel;}
+function setQueryPG(i,btn){curQ=i;var b=document.querySelectorAll('#pgPreset button');for(var j=0;j<b.length;j++)b[j].classList.remove('active');if(btn)btn.classList.add('active');showQ();}
+function showQ(){var q=QUERIES[curQ];document.getElementById('pgTitle').textContent=q.title;document.getElementById('pgSubtitle').textContent=q.sub;document.getElementById('pgSQL').textContent=q.sql;document.getElementById('pgWhy').textContent=q.why;document.getElementById('pgBadge').textContent=q.rows.length+' ROWS • SUCCESS';document.getElementById('pgHead').innerHTML=q.head.map(function(h){return '<th>'+h+'</th>';}).join('');document.getElementById('pgBody').innerHTML=q.rows.map(function(r){return '<tr>'+r.map(function(c){return '<td>'+c+'</td>';}).join('')+'</tr>';}).join('');}
+function runPG(){showQ();}
+setTablePG('artist',null);showQ();
+</script>
+</body>
+  </html>
